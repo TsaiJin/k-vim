@@ -74,12 +74,12 @@ set noswapfile
 
 
 "create undo file
-if has('persistent_undo')
-  set undolevels=1000         " How many undos
-  set undoreload=10000        " number of lines to save for undo
-  set undofile                " So is persistent undo ...
-  set undodir=/tmp/vimundo/
-endif
+" if has('persistent_undo')
+  " set undolevels=1000         " How many undos
+  " set undoreload=10000        " number of lines to save for undo
+  " set undofile                " So is persistent undo ...
+  " set undodir=/tmp/vimundo/
+" endif
 
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 " 突出显示当前行等
@@ -89,14 +89,17 @@ set cursorline          " 突出显示当前行
 
 "设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制
 "好处：误删什么的，如果以前屏幕打开，可以找回
-set t_ti= t_te=
+" set t_ti= t_te=
 
 
 "- 则点击光标不会换,用于复制
-set mouse-=a             " 鼠标暂不启用, 键盘党....
-" set mouse=a                 " Automatically enable mouse usage
+" set mouse-=a             " 鼠标暂不启用, 键盘党....
+set mouse=a                 " Automatically enable mouse usage
 " set mousehide               " Hide the mouse cursor while typing
 
+set clipboard=unnamedplus           " 共享外部剪贴板
+nnoremap y "+y
+vnoremap y "+y
 
 " 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 "set selection=exclusive
@@ -223,7 +226,7 @@ function! NumberToggle()
     set relativenumber
   endif
 endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+" nnoremap <C-n> :call NumberToggle()<cr>
 
 
 "==========================================
@@ -297,14 +300,17 @@ nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+inoremap jk <Esc>A
+inoremap kj <Esc>I
 
 " F1 - F6 设置
 " F1 废弃这个键,防止调出系统帮助
-" F2 行号开关，用于鼠标复制代码用
+" F4 行号开关，用于鼠标复制代码用
 " F3 显示可打印字符开关
-" F4 换行开关
-" F5 粘贴模式paste_mode开关,用于有格式的代码粘贴
-" F6 语法开关，关闭语法可以加快大文件的展示
+" F2 换行开关
+" F6 粘贴模式paste_mode开关,用于有格式的代码粘贴
+" F5 语法开关，关闭语法可以加快大文件的展示
+" F7 toggle nerdtree
 
 " I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
 noremap <F1> <Esc>"
@@ -320,18 +326,18 @@ function! HideNumber()
   endif
   set number?
 endfunc
-nnoremap <F2> :call HideNumber()<CR>
+nnoremap <F4> :call HideNumber()<CR>
 nnoremap <F3> :set list! list?<CR>
-nnoremap <F4> :set wrap! wrap?<CR>
+nnoremap <F2> :set wrap! wrap?<CR>
               "set paste
-set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
+set pastetoggle=<F6>            "    when in insert mode, press <F6> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 
 " disbale paste mode when leaving insert mode
 au InsertLeave * set nopaste
 
-nnoremap <F6> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
+nnoremap <F5> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 
 "Smart way to move between windows 分屏窗口移动
@@ -341,8 +347,8 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Go to home and end using capitalized directions
-noremap H ^
-noremap L $
+noremap 0 ^
+noremap - $
 
 
 "Map ; to : and save a million keystrokes
@@ -359,10 +365,12 @@ cnoremap <C-e> <End>
 " 搜索相关
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
+" map <space> /
 " 进入搜索Use sane regexes"
-nnoremap / /\v
-vnoremap / /\v
+" nnoremap / /\v
+" vnoremap / /\v
+
+nnoremap <space> <c-d>
 
 "Keep search pattern at the center of the screen."
 nnoremap <silent> n nzz
@@ -412,8 +420,11 @@ map <leader>tm :tabm<cr>
 
 
 " 新建tab  Ctrl+t
-nnoremap <C-t>     :tabnew<CR>
+nnoremap t         :tabnew<CR>
 inoremap <C-t>     <Esc>:tabnew<CR>
+nnoremap <tab> gt
+nnoremap <s-tab> gT
+
 " TODO: 配置成功这里, 切换更方便, 两个键
 " nnoremap <C-S-tab> :tabprevious<CR>
 " nnoremap <C-tab>   :tabnext<CR>
@@ -464,7 +475,7 @@ nnoremap <leader>v V`}
 cmap w!! w !sudo tee >/dev/null %
 
 " kj 替换 Esc
-inoremap kj <Esc>
+" inoremap kj <Esc>
 
 " 滚动Speed up scrolling of the viewport slightly
 nnoremap <C-e> 2<C-e>
@@ -477,7 +488,11 @@ nnoremap <C-y> 2<C-y>
 "nmap T O<ESC>j
 
 " Quickly close the current window
-nnoremap <leader>q :q<CR>
+nnoremap <leader>q :q!<CR>
+nnoremap <leader>w :wq!<CR>
+
+nnoremap <leader>r :tabedit ~/.vimrc<CR>
+nnoremap <leader>b :tabedit ~/.vimrc.bundles<CR>
 
 " Swap implementations of ` and ' jump to markers
 " By default, ' jumps to the marked line, ` jumps to the marked line and
@@ -547,7 +562,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h14
+    set guifont=Monaco:h16
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12,Monospace\ 12
     endif
@@ -558,13 +573,17 @@ if has("gui_running")
     set guitablabel=%M\ %t
     set showtabline=1
     set linespace=2
-    set noimd
     set t_Co=256
+    set noimd
+    autocmd! InsertLeave * set imdisable|set iminsert=0
+    autocmd! InsertEnter * set noimdisable|set iminsert=0
 endif
 
 " theme主题
 set background=dark
 set t_Co=256
+let g:solarized_termcolors=256
+
 colorscheme solarized
 " colorscheme molokai
 " colorscheme Tomorrow-Night
@@ -587,5 +606,3 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-
