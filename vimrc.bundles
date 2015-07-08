@@ -191,11 +191,26 @@ Bundle 'vim-scripts/matchit.zip'
 Bundle "kshenoy/vim-signature"
 let g:SignatureMap = {
         \ 'Leader'             :  "m",
+        \ 'PlaceNextMark'      :  "",
+        \ 'ToggleMarkAtLine'   :  "",
         \ 'PurgeMarksAtLine'   :  "dm",
+        \ 'DeleteMark'         :  "",
+        \ 'PurgeMarks'         :  "m<Space>",
+        \ 'PurgeMarkers'       :  "",
+        \ 'GotoNextLineAlpha'  :  "",
+        \ 'GotoPrevLineAlpha'  :  "",
+        \ 'GotoNextSpotAlpha'  :  "",
+        \ 'GotoPrevSpotAlpha'  :  "",
+        \ 'GotoNextLineByPos'  :  "",
+        \ 'GotoPrevLineByPos'  :  "",
         \ 'GotoNextSpotByPos'  :  "m,",
         \ 'GotoPrevSpotByPos'  :  "m.",
+        \ 'GotoNextMarker'     :  "",
+        \ 'GotoPrevMarker'     :  "",
+        \ 'GotoNextMarkerAny'  :  "",
+        \ 'GotoPrevMarkerAny'  :  "",
         \ 'ListLocalMarks'     :  "m/",
-        \ 'PurgeMarks'         :  "m<Space>",
+        \ 'ListLocalMarkers'   :  ""
         \ }
 
 " ################### 文本对象 ###################
@@ -277,7 +292,7 @@ let g:ctrlsf_confirm_save = 0
 " Note: cannot use <CR> or <C-m> for open
 " Use : <sapce> or <tab>
 let g:ctrlsf_mapping = {
-    \ "open"  : "<Space>",
+    \ "open"  : "<space>",
     \ "openb" : "O",
     \ "tab"   : "t",
     \ "tabb"  : "T",
@@ -305,13 +320,12 @@ nnoremap <leader>ge :Gdiff<CR>
 " 只是不喜欢除了行号多一列, 默认关闭,gs时打开
 Bundle 'airblade/vim-gitgutter'
 let g:gitgutter_map_keys = 0
-let g:gitgutter_enabled = 1
+let g:gitgutter_enabled = 0
 let g:gitgutter_highlight_lines = 1
 nnoremap <leader>gs :GitGutterToggle<CR>
 
-" edit history, 可以查看回到某个历史状态
-" Bundle 'sjl/gundo.vim'
-" noremap <leader>h :GundoToggle<CR>
+
+Bundle 'mbbill/undotree'
 
 " ################### 显示增强 ###################
 
@@ -334,33 +348,30 @@ let g:airline_extensions = []
 
 
 " 括号显示增强
-Bundle 'kien/rainbow_parentheses.vim'
-" 不加入这行, 防止黑色括号出现, 很难识别
-" \ ['black',       'SeaGreen3'],
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle = 0
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+Bundle 'luochen1990/rainbow'
+let g:rainbow_conf = {
+\   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+\   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+\   'operators': '_,_',
+\   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\   'separately': {
+\       '*': {},
+\       'tex': {
+\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+\       },
+\       'lisp': {
+\           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\       },
+\       'vim': {
+\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+\       },
+\       'html': {
+\           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+\       },
+\       'css': 0,
+\   }
+\}
+let g:rainbow_active = 1
 
 
 " ################### 显示增强-主题 ###################"
@@ -386,6 +397,7 @@ Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'scrooloose/nerdtree'
 map <F7> :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=1
+let NERDTreeWinSize=25	            " 窗口宽度
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$']
 "close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
@@ -544,7 +556,7 @@ let g:html_indent_style1 = "inc"
 " Bundle 'marijnh/tern_for_vim'
 
 " for jquery
-Bundle 'nono/jquery.vim'
+" Bundle 'nono/jquery.vim'
 
 " ###### emmet HTML complete #########
 " Bundle "mattn/emmet-vim"
@@ -562,7 +574,7 @@ Bundle 'Glench/Vim-Jinja2-Syntax'
 
 
 " ##### Coffee Script ########
-" Bundle 'kchmck/vim-coffee-script'
+Bundle 'kchmck/vim-coffee-script'
 
 " forcss color
 " not work in iterm2 which termianl selection is not xterm-256

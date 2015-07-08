@@ -46,6 +46,7 @@ filetype plugin indent on
 "以下配置有详细说明，一些特性不喜欢可以直接注解掉
 
 "set guifont=Monaco:h20          " 字体 && 字号
+set shell=/bin/bash
 
 " history存储容量
 set history=2000
@@ -311,6 +312,7 @@ inoremap kj <Esc>I
 " F6 粘贴模式paste_mode开关,用于有格式的代码粘贴
 " F5 语法开关，关闭语法可以加快大文件的展示
 " F7 toggle nerdtree
+" F8 Undotree
 
 " I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
 noremap <F1> <Esc>"
@@ -327,6 +329,7 @@ function! HideNumber()
   set number?
 endfunc
 nnoremap <F4> :call HideNumber()<CR>
+nnoremap <F8> :UndotreeToggle<CR>
 nnoremap <F3> :set list! list?<CR>
 nnoremap <F2> :set wrap! wrap?<CR>
               "set paste
