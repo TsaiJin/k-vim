@@ -25,9 +25,10 @@
 " 修改leader键
 "let mapleader = ','
 let g:mapleader= ','
-"let g:EasyMotion_leader_key='<Space>'
-"
-"map <nhl> :nohl<cr>
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>h <Plug>(easymotion-linebackward)
 
 " 开启语法高亮
 syntax on
