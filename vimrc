@@ -94,8 +94,8 @@ set cursorline          " 突出显示当前行
 
 
 "- 则点击光标不会换,用于复制
-" set mouse-=a             " 鼠标暂不启用, 键盘党....
-set mouse=a                 " Automatically enable mouse usage
+set mouse-=a             " 鼠标暂不启用, 键盘党....
+"set mouse=a                 " Automatically enable mouse usage
 " set mousehide               " Hide the mouse cursor while typing
 
 set clipboard=unnamedplus           " 共享外部剪贴板
@@ -328,10 +328,10 @@ function! HideNumber()
   endif
   set number?
 endfunc
-nnoremap <F4> :call HideNumber()<CR>
-nnoremap <F8> :UndotreeToggle<CR>
-nnoremap <F3> :set list! list?<CR>
-nnoremap <F2> :set wrap! wrap?<CR>
+nnoremap <F1> :call HideNumber()<CR>
+"nnoremap <F8> :UndotreeToggle<CR>
+"nnoremap <F3> :set list! list?<CR>
+"nnoremap <F2> :set wrap! wrap?<CR>
               "set paste
 set pastetoggle=<F6>            "    when in insert mode, press <F6> to go to
                                 "    paste mode, where you can paste mass data
@@ -350,8 +350,8 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Go to home and end using capitalized directions
-noremap 0 ^
-noremap - $
+" noremap 0 ^
+" noremap - $
 
 
 "Map ; to : and save a million keystrokes
@@ -409,17 +409,17 @@ noremap <right> :bn<CR>
 " http://vim.wikia.com/wiki/Alternative_tab_navigation
 " http://stackoverflow.com/questions/2005214/switching-to-a-particular-tab-in-vim
 "map <C-2> 2gt
-map <leader>th :tabfirst<cr>
-map <leader>tl :tablast<cr>
-
-map <leader>tj :tabnext<cr>
-map <leader>tk :tabprev<cr>
-map <leader>tn :tabnext<cr>
-map <leader>tp :tabprev<cr>
-
-map <leader>te :tabedit<cr>
-map <leader>td :tabclose<cr>
-map <leader>tm :tabm<cr>
+" map <leader>th :tabfirst<cr>
+" map <leader>tl :tablast<cr>
+" 
+" map <leader>tj :tabnext<cr>
+" map <leader>tk :tabprev<cr>
+" map <leader>tn :tabnext<cr>
+" map <leader>tp :tabprev<cr>
+" 
+" map <leader>te :tabedit<cr>
+" map <leader>td :tabclose<cr>
+" map <leader>tm :tabm<cr>
 
 
 " 新建tab  Ctrl+t
@@ -587,10 +587,10 @@ set background=dark
 set t_Co=256
 let g:solarized_termcolors=256
 
-colorscheme solarized
+" colorscheme solarized
 " colorscheme molokai
 " colorscheme Tomorrow-Night
-" colorscheme Tomorrow-Night-Bright
+colorscheme Tomorrow-Night-Bright
 " colorscheme desert
 
 
@@ -609,3 +609,68 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
+
+" NERDTree Setup
+map <F2> :NERDTreeToggle<CR>
+nnoremap <silent> <F9> :TagbarToggle<CR>
+
+" EasyMotion
+let g:mapleader= ','
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>h <Plug>(easymotion-linebackward)
+
+"ctags setting
+nnoremap <C-]> :execute "vertical ptag " . expand("<cword>")<CR>
+
+"cscope
+if has("cscope")
+        set csprg=/usr/local/bin/cscope
+        set csto=0
+        set cst
+        set nocsverb
+        if filereadable("cscope.out")
+            cs add cscope.out
+        elseif $CSCOPE_DB != ""
+            cs add $CSCOPE_DB
+        endif
+        set csverb
+    endif
+
+    nmap <C-s> :cs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-g> :cs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-c> :cs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-t> :cs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-e> :cs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap <C-f> :cs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap <C-i> :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nmap <C-d> :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+""  0 or s: Find this C symbol
+""  1 or g: Find this definition
+""  2 or d: Find functions called by this function
+""  3 or c: Find functions calling this function
+""  4 or t: Find this text string
+""  6 or e: Find this egrep pattern
+""  7 or f: Find this file
+""  8 or i: Find files #including this file
+
+    nmap ,s :scs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap ,g :scs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap ,c :scs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap ,t :scs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap ,e :scs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap ,f :scs find f <C-R>=expand("<cfile>")<CR><CR>
+    nmap ,i :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nmap ,d :scs find d <C-R>=expand("<cword>")<CR><CR>
+
+    nmap .s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
+    nmap .g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
+    nmap .c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
+    nmap .t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
+    nmap .e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+    nmap .i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    nmap .d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
+
+    nmap <C>c :cs find c <C-R>=expand("<cword>")<CR><CR>
