@@ -99,8 +99,8 @@ set mouse-=a             " 鼠标暂不启用, 键盘党....
 " set mousehide               " Hide the mouse cursor while typing
 
 set clipboard=unnamedplus           " 共享外部剪贴板
-nnoremap y "+y
-vnoremap y "+y
+"nnoremap y "+y
+"vnoremap y "+y
 
 " 修复ctrl+m 多光标操作选择的bug，但是改变了ctrl+v进行字符选中时将包含光标下的字符
 "set selection=exclusive
